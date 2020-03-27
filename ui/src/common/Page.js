@@ -1,10 +1,11 @@
 import React from 'react';
+import PageHeader from './PageHeader';
 
 export default function Page(props) {
   return (
     <section>
-      <h2>{props.title}</h2>
-      {props.content}
+      <PageHeader></PageHeader>
+      <div className="flex justify-center p-4">{props.content}</div>
     </section>
   );
 }

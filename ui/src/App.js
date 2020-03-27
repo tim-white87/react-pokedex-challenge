@@ -11,6 +11,9 @@ export default function App() {
         <Route path="/">
           <Home />
         </Route>
+        <Route path="/about">
+          <About />
+        </Route>
       </Switch>
     </Router>
   );
@@ -19,4 +22,9 @@ export default function App() {
 function Home() {
   const content = <Pokedex></Pokedex>;
   return <Page title={'Home'} content={content}></Page>;
+}
+
+function About() {
+  const content = <div>By Tim White</div>;
+  return <Page title={'About'} content={content}></Page>;
 }

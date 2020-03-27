@@ -1,12 +1,15 @@
 import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import React from 'react';
+import PokedexHeader from './PokedexHeader';
+import PokedexItem from './PokedexItem';
 
 const GET_POKEDEX = gql`
   query getPokedex {
     pokedex @client {
       id
       name
+      num
     }
   }
 `;
@@ -43,12 +46,17 @@ export default function Pokedex() {
   if (error) return <p>Error :(</p>;
 
   return (
-    <section>
-      <h3>Hello Pokedex</h3>
-      <div>
-        {data.pokedex.map(pokemon => (
-          <div key={pokemon.id}>{pokemon.name}</div>
-        ))}
+    <section className="w-1/2 flex">
+      <div className="bg-red-600 rounded shadow px-4 py-20 w-1/2">
+        <PokedexHeader></PokedexHeader>
+        <div className="rounded bg-white overflow-y-auto h-64 px-2">
+          {data.pokedex.map(pokemon => (
+            <PokedexItem key={pokemon.id} pokemon={pokemon}></PokedexItem>
+          ))}
+        </div>
+      </div>
+      <div className="bg-red-600 rounded shadow px-4 py-20 w-1/2">
+        <div className="rounded bg-red-700 overflow-y-auto h-64 px-2"></div>
       </div>
     </section>
   );
