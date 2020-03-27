@@ -33,7 +33,7 @@ const resolvers = {
   }
 };
 
-export default function Pokedex(props) {
+export default function Pokedex() {
   const client = useApolloClient();
   client.addResolvers(resolvers);
 
@@ -45,9 +45,11 @@ export default function Pokedex(props) {
   return (
     <section>
       <h3>Hello Pokedex</h3>
-      {data.pokedex.map(pokemon => (
-        <div key={pokemon.id}>{pokemon.name}</div>
-      ))}
+      <div>
+        {data.pokedex.map(pokemon => (
+          <div key={pokemon.id}>{pokemon.name}</div>
+        ))}
+      </div>
     </section>
   );
 }
