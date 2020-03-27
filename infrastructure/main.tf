@@ -10,4 +10,8 @@ resource "aws_s3_bucket" "react-pokedex-challenge" {
     index_document = "index.html"
     error_document = "error.html"
   }
+
+  versioning {
+    enabled = true
+  }
 }

@@ -10,6 +10,8 @@ const GET_POKEDEX = gql`
       id
       name
       num
+      type
+      weaknesses
     }
   }
 `;
@@ -18,7 +20,7 @@ const GET_POKEDEX = gql`
 const resolvers = {
   Query: {
     pokedex: async (_, args, { cache }) => {
-      console.log(cache);
+      // TODO check if cache has data and return cache if so
       try {
         const res = await fetch(
           'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'
@@ -30,7 +32,7 @@ const resolvers = {
           return p;
         });
       } catch (e) {
-        console.log(`Something went wrong with the data source: ${e}`);
+        console.error(`Something went wrong with the data source: ${e}`);
       }
     }
   }
