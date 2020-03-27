@@ -1,38 +1,48 @@
+import ApolloClient from 'apollo-boost';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloClient } from 'apollo-client';
 import gql from 'graphql-tag';
 
 const typeDefs = gql`
   extend type Query {
-    pokemon: [Pokemon]!
+    pokedex: [Pokemon]!
   }
 
-  extend type Pokemon {
+  type Pokemon {
+    id: ID
     name: String
     type: String
+    img: String
+    type: [String]
+    height: String
+    weight: String
+    candy: String
+    candy_count: Number
+    egg: String
+    spawn_chance: Float
+    avg_spawns: Float
+    multipliers: Float
+    weaknesses: [String]
+    next_evolution: [Pokemon]
   }
 `;
 
 const cache = new InMemoryCache();
 cache.writeData({
   data: {
-    pokemon: []
+    pokedex: [
+      {
+        __typename: 'Pokemon',
+        name: 'bulbasaur',
+        type: 'grass'
+      }
+    ]
   }
 });
-console.log(cache);
 
 const client = new ApolloClient({
+  uri: 'https://48p1r2roz4.sse.codesandbox.io',
   cache,
-  // link: new HttpLink({ uri: 'https://48p1r2roz4.sse.codesandbox.io' }),
-  typeDefs,
-  connectToDevTools: true,
-  resolvers: {
-    Query: {
-      async Pokemon(_, { assetType }) {
-        // const res = await fetch();
-      }
-    }
-  }
+  typeDefs
 });
 
 export default client;
