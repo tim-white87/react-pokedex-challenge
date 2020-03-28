@@ -22,14 +22,26 @@ const resolvers = {
   Query: {
     pokedex: async (_, args, { cache }) => {
       // TODO check if cache has data and return cache if so
-      console.log(args);
       try {
         const res = await fetch(
           'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'
         );
         const data = await res.json();
-
-        return data.pokemon.map(p => {
+        let pokemon = data.pokemon;
+        if (args && args.filter) {
+          // TODO move this to a common filter function
+          Object.keys(args.filter).forEach(key => {
+            if (typeof args.filter[key] === 'string') {
+              pokemon = pokemon.filter(
+                p =>
+                  p[key].toLowerCase().indexOf(args.filter[key].toLowerCase()) >
+                  -1
+              );
+            } else {
+            }
+          });
+        }
+        return pokemon.map(p => {
           p.__typename = 'Pokemon';
           return p;
         });
@@ -44,26 +56,36 @@ export default function Pokedex() {
   const client = useApolloClient();
   client.addResolvers(resolvers);
 
-  const { loading, error, data } = useQuery(GET_POKEDEX, {
-    variables: {
-      filter: {}
-    }
-  });
+  const { loading, error, data, refetch } = useQuery(GET_POKEDEX);
 
   function handleSearchChange(e) {
-    console.log(e.target.value);
+    const name = e.target.value;
+    const vars =
+      e.target.value === ''
+        ? { filter: {} }
+        : {
+            filter: {
+              name
+            }
+          };
+    refetch(vars);
   }
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
   return (
     <section className="w-1/2 flex">
       <div className="bg-red-600 rounded shadow px-4 py-20 w-1/2">
         <PokedexHeader></PokedexHeader>
-        <div className="rounded bg-white overflow-y-auto h-64 px-2">
-          {data.pokedex.map(pokemon => (
-            <PokedexItem key={pokemon.id} pokemon={pokemon}></PokedexItem>
-          ))}
+        <div className="rounded bg-gray-200 overflow-y-auto h-64 px-2">
+          {loading ? (
+            <div className="flex items-center justify-center h-full">
+              <div>Loading...</div>
+            </div>
+          ) : (
+            data.pokedex.map(pokemon => (
+              <PokedexItem key={pokemon.id} pokemon={pokemon}></PokedexItem>
+            ))
+          )}
         </div>
       </div>
       <div className="bg-red-600 rounded shadow px-4 py-20 w-1/2">

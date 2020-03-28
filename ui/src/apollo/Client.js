@@ -29,13 +29,7 @@ const typeDefs = gql`
 const cache = new InMemoryCache();
 cache.writeData({
   data: {
-    pokedex: [
-      {
-        __typename: 'Pokemon',
-        name: 'bulbasaur',
-        type: 'grass'
-      }
-    ]
+    pokedex: []
   }
 });
 
