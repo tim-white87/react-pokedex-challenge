@@ -1,5 +1,6 @@
 import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { filter as _filter } from 'lodash';
 import React, { useState } from 'react';
 import PokedexFilters from './PokedexFilters';
 import PokedexHeader from './PokedexHeader';
@@ -25,8 +26,10 @@ function filterPokemon(pokemon, filter) {
       pokemon = pokemon.filter(
         p => p[key].toLowerCase().indexOf(filter[key].toLowerCase()) > -1
       );
+    } else if (Array.isArray(filter[key])) {
+      pokemon = pokemon.filter(p => filter[key].every(k => p[key].includes(k)));
     } else {
-      // TODO filter for array options
+      pokemon = _filter(pokemon, filter[key]);
     }
   });
   return pokemon;

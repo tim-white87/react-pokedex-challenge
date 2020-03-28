@@ -14,6 +14,14 @@ export default function PokedexFilters(props) {
     debounceSearchText({ name: e.target.value });
   }
 
+  function onChangePokeTypes(e, val) {
+    props.onChangeFilter({ type: val.map(t => t.label) });
+  }
+
+  function onChangePokeWeaknesses(e, val) {
+    props.onChangeFilter({ weaknesses: val.map(t => t.label) });
+  }
+
   // TODO make input loading component and use
   let typesAutoComplete = <div className="text-center">Loading...</div>;
   let weaknessesAutoComplete = <div className="text-center">Loading...</div>;
@@ -25,6 +33,7 @@ export default function PokedexFilters(props) {
         multiple
         className="w-full"
         filterSelectedOptions
+        onChange={onChangePokeTypes}
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (
             <Chip
@@ -48,6 +57,7 @@ export default function PokedexFilters(props) {
         multiple
         filterSelectedOptions
         className="w-full"
+        onChange={onChangePokeWeaknesses}
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (
             <Chip
