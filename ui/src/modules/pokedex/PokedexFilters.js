@@ -6,12 +6,12 @@ import React, { useCallback } from 'react';
 
 export default function PokedexFilters(props) {
   const debounceSearchText = useCallback(
-    debounce(props.onChangeSearchText, 800),
+    debounce(props.onChangeFilter, 800),
     []
   );
 
-  function onSearchTextChange(e) {
-    debounceSearchText(e.target.value);
+  function onChangeSearchText(e) {
+    debounceSearchText({ name: e.target.value });
   }
 
   return (
@@ -19,8 +19,7 @@ export default function PokedexFilters(props) {
       <form className="flex flex-col justify-center h-full">
         <div className="w-full">
           <TextField
-            onChange={onSearchTextChange}
-            value={props.searchText}
+            onChange={onChangeSearchText}
             variant="outlined"
             className="w-full"
             placeholder="Search Pokemon"

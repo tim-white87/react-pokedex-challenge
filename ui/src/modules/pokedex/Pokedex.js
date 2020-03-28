@@ -62,8 +62,8 @@ export default function Pokedex() {
     variables: { filter }
   });
 
-  function handleSearchChange(name) {
-    setFilter({ ...filter, name });
+  function handleChangeFilter(f) {
+    setFilter({ ...filter, ...f });
   }
 
   if (error) return <p>Error :(</p>;
@@ -85,7 +85,7 @@ export default function Pokedex() {
       </div>
       <div className="bg-red-600 rounded shadow px-4 py-20 w-1/2">
         <div className="rounded bg-red-700 overflow-y-auto h-64 px-2">
-          <PokedexFilters onChangeSearchText={handleSearchChange} />
+          <PokedexFilters onChangeFilter={handleChangeFilter} filter={filter} />
         </div>
       </div>
     </section>
