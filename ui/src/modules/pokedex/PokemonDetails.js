@@ -9,6 +9,7 @@ const GET_POKEMON = gql`
     pokemon(id: $id) @client {
       id
       name
+      num
       type
       img
       type
@@ -57,12 +58,38 @@ export default function PokemonDetails() {
         <h2 className="font-bold self-center text-lg">Pokemon Details</h2>
         <h2 className="self-center text-sm mr-4">{data.pokemon.name}</h2>
       </div>
-      <div className="p-8 rounded shadow bg-white m-8 flex">
+      <div className="p-8 rounded shadow bg-white m-8 flex flex-wrap">
         <div className="w-1/4">
           <img className="object-contain" src={data.pokemon.img}></img>
         </div>
         <div className="w-3/4 p-4 font-bold">
-          <h3>Name: {data.pokemon.name}</h3>
+          <h3>
+            #{data.pokemon.num}: {data.pokemon.name}
+          </h3>
+          <div>
+            Type:{' '}
+            {data.pokemon.type.map((t, i) => {
+              if (i + 1 === data.pokemon.type.length) {
+                return <span key={`pokemon-type-${i}`}>{t}</span>;
+              } else {
+                return <span key={`pokemon-type-${i}`}>{t}, </span>;
+              }
+            })}
+          </div>
+        </div>
+        <div className="w-full flex flex-col">
+          <div>
+            Weaknesses:{' '}
+            {data.pokemon.weaknesses.map((w, i) => {
+              if (i + 1 === data.pokemon.weaknesses.length) {
+                return <span key={`pokemon-weaknesses-${i}`}>{w}</span>;
+              } else {
+                return <span key={`pokemon-weaknesses-${i}`}>{w}, </span>;
+              }
+            })}
+          </div>
+          <div>Height: {data.pokemon.height}</div>
+          <div>Weight: {data.pokemon.weight}</div>
         </div>
       </div>
     </section>
