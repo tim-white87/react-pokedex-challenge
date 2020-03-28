@@ -6,6 +6,7 @@ import PokedexFilters from './PokedexFilters';
 import PokedexHeader from './PokedexHeader';
 import PokedexItem from './PokedexItem';
 
+// MOCKS: back end data query
 async function getPokeData(cache) {
   // TODO check if cache has data and return cache if so
   try {
@@ -20,6 +21,7 @@ async function getPokeData(cache) {
   return;
 }
 
+// MOCKS: filter on the backend
 function filterPokemon(pokemon, filter) {
   Object.keys(filter).forEach(key => {
     if (typeof filter[key] === 'string') {
@@ -35,6 +37,7 @@ function filterPokemon(pokemon, filter) {
   return pokemon;
 }
 
+// MOCKS: backend request for the poke types
 function mapPokeTypes(pokemon) {
   let types = [];
   pokemon.forEach(p => {
@@ -43,7 +46,7 @@ function mapPokeTypes(pokemon) {
   return types;
 }
 
-// TODO this mocks a backend resolver
+// MOCKS: backend resolvers
 const resolvers = {
   Query: {
     pokedex: async (_, args, { cache }) => {
