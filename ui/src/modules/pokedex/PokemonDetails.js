@@ -57,7 +57,14 @@ export default function PokemonDetails() {
         <h2 className="font-bold self-center text-lg">Pokemon Details</h2>
         <h2 className="self-center text-sm mr-4">{data.pokemon.name}</h2>
       </div>
-      <div className="p-8 rounded shadow bg-white m-8"></div>
+      <div className="p-8 rounded shadow bg-white m-8 flex">
+        <div className="w-1/4">
+          <img className="object-contain" src={data.pokemon.img}></img>
+        </div>
+        <div className="w-3/4 p-4 font-bold">
+          <h3>Name: {data.pokemon.name}</h3>
+        </div>
+      </div>
     </section>
   );
 }
