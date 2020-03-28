@@ -56,6 +56,12 @@ export default {
     pokeTypes: async (_, args, { cache }) => {
       let pokemon = await getPokeData(cache);
       return mapPokeTypes(pokemon);
+    },
+    pokemon: async (_, args, { cache }) => {
+      let pokemon = await getPokeData(cache);
+      const poke = pokemon.find(p => p.id.toString() === args.id);
+      poke.__typename = 'Pokemon';
+      return poke;
     }
   }
 };

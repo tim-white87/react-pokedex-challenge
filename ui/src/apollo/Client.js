@@ -5,8 +5,9 @@ import PokedexResolvers from './PokedexResolvers';
 
 const typeDefs = gql`
   extend type Query {
-    pokedex: [Pokemon]!
+    pokedex(filter: Object): [Pokemon]!
     pokeTypes: [String]
+    pokemon(id: ID): Pokemon!
   }
 
   type Pokemon {
