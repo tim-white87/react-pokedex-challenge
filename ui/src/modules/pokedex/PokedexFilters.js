@@ -14,6 +14,58 @@ export default function PokedexFilters(props) {
     debounceSearchText({ name: e.target.value });
   }
 
+  // TODO make input loading component and use
+  let typesAutoComplete = <div className="text-center">Loading...</div>;
+  let weaknessesAutoComplete = <div className="text-center">Loading...</div>;
+  if (props.types) {
+    const options = props.types.map(label => ({ label }));
+    typesAutoComplete = (
+      <Autocomplete
+        variant="outlined"
+        multiple
+        className="w-full"
+        filterSelectedOptions
+        renderTags={(value, getTagProps) =>
+          value.map((option, index) => (
+            <Chip
+              variant="outlined"
+              label={option.label}
+              {...getTagProps({ index })}
+            />
+          ))
+        }
+        renderInput={params => (
+          <TextField {...params} variant="outlined" placeholder="Type" />
+        )}
+        options={options}
+        getOptionLabel={option => option.label}
+      />
+    );
+
+    weaknessesAutoComplete = (
+      <Autocomplete
+        variant="outlined"
+        multiple
+        filterSelectedOptions
+        className="w-full"
+        renderTags={(value, getTagProps) =>
+          value.map((option, index) => (
+            <Chip
+              variant="outlined"
+              label={option.label}
+              {...getTagProps({ index })}
+            />
+          ))
+        }
+        renderInput={params => (
+          <TextField {...params} variant="outlined" placeholder="Weaknesses" />
+        )}
+        options={options}
+        getOptionLabel={option => option.label}
+      />
+    );
+  }
+
   return (
     <section className="p-4 h-full">
       <form className="flex flex-col justify-center h-full">
@@ -25,54 +77,8 @@ export default function PokedexFilters(props) {
             placeholder="Search Pokemon"
           />
         </div>
-        <div className="mt-2 w-full">
-          <Autocomplete
-            variant="outlined"
-            multiple
-            className="w-full"
-            filterSelectedOptions
-            renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  variant="outlined"
-                  label={option.label}
-                  {...getTagProps({ index })}
-                />
-              ))
-            }
-            renderInput={params => (
-              <TextField {...params} variant="outlined" placeholder="Type" />
-            )}
-            options={[{ label: 'Foo' }]}
-            getOptionLabel={option => option.label}
-          />
-        </div>
-        <div className="mt-2 w-full">
-          <Autocomplete
-            variant="outlined"
-            multiple
-            filterSelectedOptions
-            className="w-full"
-            renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  variant="outlined"
-                  label={option.label}
-                  {...getTagProps({ index })}
-                />
-              ))
-            }
-            renderInput={params => (
-              <TextField
-                {...params}
-                variant="outlined"
-                placeholder="Weaknesses"
-              />
-            )}
-            options={[{ label: 'Foo' }]}
-            getOptionLabel={option => option.label}
-          />
-        </div>
+        <div className="mt-2 w-full">{typesAutoComplete}</div>
+        <div className="mt-2 w-full">{weaknessesAutoComplete}</div>
       </form>
     </section>
   );

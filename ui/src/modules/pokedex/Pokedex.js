@@ -69,6 +69,7 @@ const GET_POKEDEX = gql`
       type
       weaknesses
     }
+    pokeTypes @client
   }
 `;
 
@@ -104,7 +105,10 @@ export default function Pokedex() {
       </div>
       <div className="bg-red-600 rounded shadow px-4 py-20 w-1/2">
         <div className="rounded bg-red-700 overflow-y-auto h-64 px-2">
-          <PokedexFilters onChangeFilter={handleChangeFilter} filter={filter} />
+          <PokedexFilters
+            onChangeFilter={handleChangeFilter}
+            types={data && data.pokeTypes ? data.pokeTypes : null}
+          />
         </div>
       </div>
     </section>
