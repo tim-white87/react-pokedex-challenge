@@ -5,38 +5,57 @@ import PokedexFilters from './PokedexFilters';
 import PokedexHeader from './PokedexHeader';
 import PokedexItem from './PokedexItem';
 
+async function getPokeData(cache) {
+  // TODO check if cache has data and return cache if so
+  try {
+    const res = await fetch(
+      'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'
+    );
+    const data = await res.json();
+    return data.pokemon;
+  } catch (e) {
+    console.error(`Something went wrong with the data source: ${e}`);
+  }
+  return;
+}
+
+function filterPokemon(pokemon, filter) {
+  Object.keys(filter).forEach(key => {
+    if (typeof filter[key] === 'string') {
+      pokemon = pokemon.filter(
+        p => p[key].toLowerCase().indexOf(filter[key].toLowerCase()) > -1
+      );
+    } else {
+      // TODO filter for array options
+    }
+  });
+  return pokemon;
+}
+
+function mapPokeTypes(pokemon) {
+  let types = [];
+  pokemon.forEach(p => {
+    p.type.forEach(type => (types.includes(type) ? null : types.push(type)));
+  });
+  return types;
+}
+
 // TODO this mocks a backend resolver
 const resolvers = {
   Query: {
     pokedex: async (_, args, { cache }) => {
-      // TODO check if cache has data and return cache if so
-      try {
-        const res = await fetch(
-          'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'
-        );
-        const data = await res.json();
-        let pokemon = data.pokemon;
-        if (args && args.filter) {
-          // TODO move this to a common filter function
-          Object.keys(args.filter).forEach(key => {
-            if (typeof args.filter[key] === 'string') {
-              pokemon = pokemon.filter(
-                p =>
-                  p[key].toLowerCase().indexOf(args.filter[key].toLowerCase()) >
-                  -1
-              );
-            } else {
-              // TODO filter for array options
-            }
-          });
-        }
-        return pokemon.map(p => {
-          p.__typename = 'Pokemon';
-          return p;
-        });
-      } catch (e) {
-        console.error(`Something went wrong with the data source: ${e}`);
+      let pokemon = await getPokeData(cache);
+      if (args && args.filter) {
+        pokemon = filterPokemon(pokemon, args.filter);
       }
+      return pokemon.map(p => {
+        p.__typename = 'Pokemon';
+        return p;
+      });
+    },
+    pokeTypes: async (_, args, { cache }) => {
+      let pokemon = await getPokeData(cache);
+      return mapPokeTypes(pokemon);
     }
   }
 };

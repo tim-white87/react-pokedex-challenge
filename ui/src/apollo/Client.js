@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 const typeDefs = gql`
   extend type Query {
     pokedex: [Pokemon]!
+    pokeTypes: [String]
   }
 
   type Pokemon {
