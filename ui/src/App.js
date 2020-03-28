@@ -20,8 +20,7 @@ export default function App() {
 }
 
 function Home() {
-  const content = <Pokedex></Pokedex>;
-  return <Page title={'Home'} content={content}></Page>;
+  return <Page title={'Home'} content={<Pokedex />}></Page>;
 }
 
 function About() {

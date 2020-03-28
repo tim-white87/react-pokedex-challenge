@@ -1,16 +1,29 @@
 import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import React from 'react';
+import { debounce } from 'lodash';
+import React, { useCallback, useState } from 'react';
 
 export default function PokedexFilters(props) {
+  const [searchText, setSearchText] = useState('');
+
+  const debounceSearchText = useCallback(
+    debounce(props.onChangeSearchText, 800),
+    []
+  );
+
+  function onTextChange(e) {
+    setSearchText(e.target.value);
+    debounceSearchText(searchText);
+  }
+
   return (
     <section className="p-4 h-full">
       <form className="flex flex-col justify-center h-full">
         <div className="w-full">
           <TextField
-            onChange={props.onChangeSearchText}
-            value={props.searchText}
+            onChange={onTextChange}
+            value={searchText}
             variant="outlined"
             className="w-full"
             placeholder="Search Pokemon"

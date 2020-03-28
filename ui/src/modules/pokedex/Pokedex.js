@@ -1,6 +1,6 @@
 import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import React from 'react';
+import React, { useState } from 'react';
 import PokedexFilters from './PokedexFilters';
 import PokedexHeader from './PokedexHeader';
 import PokedexItem from './PokedexItem';
@@ -57,19 +57,13 @@ export default function Pokedex() {
   const client = useApolloClient();
   client.addResolvers(resolvers);
 
-  const { loading, error, data, refetch } = useQuery(GET_POKEDEX);
+  const [filter, setFilter] = useState({});
+  const { loading, error, data } = useQuery(GET_POKEDEX, {
+    variables: { filter }
+  });
 
-  function handleSearchChange(e) {
-    const name = e.target.value;
-    const vars =
-      e.target.value === ''
-        ? { filter: {} }
-        : {
-            filter: {
-              name
-            }
-          };
-    refetch(vars);
+  function handleSearchChange(name) {
+    setFilter({ ...filter, name });
   }
 
   if (error) return <p>Error :(</p>;
