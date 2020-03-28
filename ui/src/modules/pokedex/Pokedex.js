@@ -2,9 +2,11 @@ import { useApolloClient, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { filter as _filter } from 'lodash';
 import React, { useState } from 'react';
+import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 import PokedexFilters from './PokedexFilters';
 import PokedexHeader from './PokedexHeader';
-import PokedexItem from './PokedexItem';
+import PokedexList from './PokedexList';
+import PokemonDetails from './PokemonDetails';
 
 // MOCKS: back end data query
 async function getPokeData(cache) {
@@ -92,21 +94,32 @@ export default function Pokedex() {
     setFilter({ ...filter, ...f });
   }
 
+  const history = useHistory();
+  let { path } = useRouteMatch();
+
+  function handleSelectPokemon(e, id) {
+    // history.push(`./${url}/pokemon/${id}`);
+    history.push(`/pokemon/${id}`);
+  }
+
   if (error) return <p>Error :(</p>;
   return (
     <section className="w-2/3 flex">
       <div className="bg-red-600 rounded shadow px-4 py-20 w-1/2">
         <PokedexHeader></PokedexHeader>
         <div className="rounded bg-gray-200 overflow-y-auto h-64 px-2">
-          {loading ? (
-            <div className="flex items-center justify-center h-full">
-              <div>Loading...</div>
-            </div>
-          ) : (
-            data.pokedex.map(pokemon => (
-              <PokedexItem key={pokemon.id} pokemon={pokemon}></PokedexItem>
-            ))
-          )}
+          <Switch>
+            <Route exact path={path}>
+              <PokedexList
+                loading={loading}
+                pokedex={data ? data.pokedex : null}
+                onSelectPokemon={handleSelectPokemon}
+              />
+            </Route>
+            <Route path={`/pokemon/:pokemonId`}>
+              <PokemonDetails />
+            </Route>
+          </Switch>
         </div>
       </div>
       <div className="bg-red-600 rounded shadow px-4 py-20 w-1/2">
