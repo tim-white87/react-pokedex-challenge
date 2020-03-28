@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Page from './common/Page';
+import AboutMe from './modules/about/AboutMe';
 import Pokedex from './modules/pokedex/Pokedex';
 
 export default function App() {
@@ -24,6 +25,5 @@ function Home() {
 }
 
 function About() {
-  const content = <div>By Tim White</div>;
-  return <Page title={'About'} content={content}></Page>;
+  return <Page title={'About'} content={<AboutMe />}></Page>;
 }

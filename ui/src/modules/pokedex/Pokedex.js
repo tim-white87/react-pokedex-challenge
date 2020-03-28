@@ -94,7 +94,7 @@ export default function Pokedex() {
 
   if (error) return <p>Error :(</p>;
   return (
-    <section className="w-1/2 flex">
+    <section className="w-2/3 flex">
       <div className="bg-red-600 rounded shadow px-4 py-20 w-1/2">
         <PokedexHeader></PokedexHeader>
         <div className="rounded bg-gray-200 overflow-y-auto h-64 px-2">
