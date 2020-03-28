@@ -23,10 +23,11 @@ export default function Pokedex() {
     <section className="w-2/3 flex">
       <div className="bg-red-600 rounded shadow px-4 py-20 w-1/2">
         <PokedexHeader />
-        <div className="rounded bg-gray-200 overflow-y-auto h-64 px-2">
+        <div className="rounded bg-gray-200 overflow-y-auto h-64 ">
           <Switch>
             <Route exact path={path}>
               <PokedexList
+                className="px-2"
                 filter={filter}
                 onSelectPokemon={handleSelectPokemon}
               />
