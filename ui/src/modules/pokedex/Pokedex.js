@@ -5,18 +5,6 @@ import PokedexFilters from './PokedexFilters';
 import PokedexHeader from './PokedexHeader';
 import PokedexItem from './PokedexItem';
 
-const GET_POKEDEX = gql`
-  query getPokedex($filter: Object) {
-    pokedex(filter: $filter) @client {
-      id
-      name
-      num
-      type
-      weaknesses
-    }
-  }
-`;
-
 // TODO this mocks a backend resolver
 const resolvers = {
   Query: {
@@ -38,6 +26,7 @@ const resolvers = {
                   -1
               );
             } else {
+              // TODO filter for array options
             }
           });
         }
@@ -51,6 +40,18 @@ const resolvers = {
     }
   }
 };
+
+const GET_POKEDEX = gql`
+  query getPokedex($filter: Object) {
+    pokedex(filter: $filter) @client {
+      id
+      name
+      num
+      type
+      weaknesses
+    }
+  }
+`;
 
 export default function Pokedex() {
   const client = useApolloClient();
