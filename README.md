@@ -1,6 +1,6 @@
 # React Pokedex Challenge
 
-Simple react application utilizing Apollo Graphql with local state management to mock a backend API.
+Simple react application utilizing Apollo Graphql with local state management to mock a backend API. You can view the site live [here](http://react-pokedex-challenge-tw.s3-website-us-east-1.amazonaws.com/).
 
 Code [repo](https://github.com/cecotw/react-pokedex-challenge):
 
