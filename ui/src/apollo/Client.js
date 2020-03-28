@@ -1,6 +1,7 @@
 import ApolloClient from 'apollo-boost';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
+import PokedexResolvers from './PokedexResolvers';
 
 const typeDefs = gql`
   extend type Query {
@@ -37,7 +38,10 @@ cache.writeData({
 const client = new ApolloClient({
   uri: 'https://48p1r2roz4.sse.codesandbox.io',
   cache,
-  typeDefs
+  typeDefs,
+  resolvers: {
+    ...PokedexResolvers
+  }
 });
 
 export default client;
