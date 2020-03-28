@@ -1,10 +1,20 @@
+import { useQuery } from '@apollo/react-hooks';
 import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { gql } from 'apollo-boost';
 import { debounce } from 'lodash';
 import React, { useCallback } from 'react';
 
+const GET_POKETYPES = gql`
+  query getPokeTypes {
+    pokeTypes @client
+  }
+`;
+
 export default function PokedexFilters(props) {
+  const { loading, error, data } = useQuery(GET_POKETYPES);
+
   const debounceSearchText = useCallback(
     debounce(props.onChangeFilter, 800),
     []
@@ -23,10 +33,16 @@ export default function PokedexFilters(props) {
   }
 
   // TODO make input loading component and use
-  let typesAutoComplete = <div className="text-center">Loading...</div>;
-  let weaknessesAutoComplete = <div className="text-center">Loading...</div>;
-  if (props.types) {
-    const options = props.types.map(label => ({ label }));
+  let statusText;
+  let typesAutoComplete = <div className="text-center">{statusText}</div>;
+  let weaknessesAutoComplete = <div className="text-center">{statusText}</div>;
+
+  if (loading) {
+    statusText = 'Loading...';
+  } else if (error) {
+    statusText = 'Something went wrong';
+  } else if (data.pokeTypes) {
+    const options = data.pokeTypes.map(label => ({ label }));
     typesAutoComplete = (
       <Autocomplete
         variant="outlined"
