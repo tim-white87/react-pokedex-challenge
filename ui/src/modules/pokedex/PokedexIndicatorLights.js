@@ -1,5 +1,5 @@
-import { css, StyleSheet } from 'aphrodite';
 import React from 'react';
+import { LargeIndicator, SmallIndicator } from './PokedexControls';
 
 export default function PokedexHeader() {
   return (
@@ -13,43 +13,3 @@ export default function PokedexHeader() {
     </section>
   );
 }
-
-function LargeIndicator() {
-  return (
-    <div
-      className={`${css(
-        styles.outerCircle
-      )} bg-gray-400 flex items-center justify-center shadow-2xl`}
-    >
-      <div className={`${css(styles.innerCircle)} bg-blue-500`}></div>
-    </div>
-  );
-}
-
-function SmallIndicator(props) {
-  return (
-    <div
-      className={`${css(styles.smallCircle)} bg-${
-        props.color
-      } border shadow-2xl`}
-    ></div>
-  );
-}
-
-const styles = StyleSheet.create({
-  outerCircle: {
-    width: '4em',
-    height: '4em',
-    borderRadius: '50%'
-  },
-  innerCircle: {
-    width: '3.5em',
-    height: '3.5em',
-    borderRadius: '50%'
-  },
-  smallCircle: {
-    width: '1em',
-    height: '1em',
-    borderRadius: '50%'
-  }
-});
