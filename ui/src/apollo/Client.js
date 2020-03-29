@@ -26,6 +26,7 @@ const typeDefs = gql`
     multipliers: Float
     weaknesses: [String]
     next_evolution: [Pokemon]
+    prev_evolution: [Pokemon]
   }
 `;
 

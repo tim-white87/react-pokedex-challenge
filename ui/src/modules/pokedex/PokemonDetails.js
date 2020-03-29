@@ -21,13 +21,28 @@ const GET_POKEMON = gql`
       next_evolution {
         ...Pokemon
       }
+      prev_evolution {
+        ...Pokemon
+      }
     }
   }
 `;
 
 export function PokemonImage(props) {
+  function onClickHandler() {
+    console.log(props.pokemon);
+  }
+
+  let linkProps = {};
+  if (props.isLink) {
+    linkProps = {
+      onClick: onClickHandler,
+      className: 'flex border-b hover:bg-yellow-200 cursor-pointer'
+    };
+  }
+
   return (
-    <div className="flex border-b mb-4">
+    <div className="flex border-b" {...linkProps}>
       <div className="w-1/4">
         <img className="object-contain" src={props.pokemon.img}></img>
       </div>
@@ -77,7 +92,7 @@ export default function PokemonDetails() {
     <section>
       <div className="bg-white shadow p-2 flex justify-between">
         <Button variant="contained" color="primary" component={Link} to="/">
-          Back
+          List
         </Button>
         <h2 className="font-bold self-center text-lg">Pokemon Details</h2>
         <h2 className="self-center text-sm mr-4">{data.pokemon.name}</h2>
@@ -85,7 +100,7 @@ export default function PokemonDetails() {
       <div className="p-8 rounded shadow bg-white m-8 flex flex-wrap">
         <div className="w-full flex flex-col">
           <PokemonImage pokemon={data.pokemon} />
-          <div>
+          <div className="mt-4">
             Weaknesses:{' '}
             {data.pokemon.weaknesses.map((w, i) => {
               if (i + 1 === data.pokemon.weaknesses.length) {
@@ -105,14 +120,29 @@ export default function PokemonDetails() {
             </div>
             <div>
               {data.pokemon.next_evolution.map((p, i) => (
-                <PokemonImage key={`pokemon-next-evolution-${i}`} pokemon={p} />
+                <PokemonImage
+                  key={`pokemon-next-evolution-${i}`}
+                  pokemon={p}
+                  isLink={true}
+                />
               ))}
             </div>
           </div>
         )}
         {data.pokemon.prev_evolution && (
-          <div className="w-full mt-2">
-            <h3 className="font-bold text-center">Evolved From</h3>
+          <div>
+            <div className="w-full mt-2">
+              <h3 className="font-bold text-center">Evolved From</h3>
+            </div>
+            <div>
+              {data.pokemon.prev_evolution.map((p, i) => (
+                <PokemonImage
+                  key={`pokemon-prev-evolution-${i}`}
+                  pokemon={p}
+                  isLink={true}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>
