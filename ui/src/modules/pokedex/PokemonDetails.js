@@ -44,7 +44,7 @@ export function PokemonImage(props) {
   }
 
   return (
-    <div className="flex border-b" {...linkProps}>
+    <div className="flex border-b w-full" {...linkProps}>
       <div className="w-1/4">
         <img
           alt={`${props.pokemon.name}`}
@@ -106,7 +106,7 @@ export default function PokemonDetails() {
       <div className="p-8 rounded shadow bg-white m-8 flex flex-wrap">
         <div className="w-full flex flex-col">
           <PokemonImage pokemon={data.pokemon} />
-          <div className="mt-4">
+          <div className="mt-4 w-full">
             Weaknesses:{' '}
             {data.pokemon.weaknesses.map((w, i) => {
               if (i + 1 === data.pokemon.weaknesses.length) {
@@ -120,7 +120,7 @@ export default function PokemonDetails() {
           <div>Weight: {data.pokemon.weight}</div>
         </div>
         {data.pokemon.next_evolution && (
-          <div>
+          <div className="w-full">
             <div className="w-full mt-2">
               <h3 className="font-bold text-center">Evolves Into</h3>
             </div>
@@ -136,7 +136,7 @@ export default function PokemonDetails() {
           </div>
         )}
         {data.pokemon.prev_evolution && (
-          <div>
+          <div className="w-full">
             <div className="w-full mt-2">
               <h3 className="font-bold text-center">Evolved From</h3>
             </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
 import PokedexFilters from './PokedexFilters';
 import PokedexHeader from './PokedexHeader';
 import PokedexList from './PokedexList';
@@ -8,8 +8,10 @@ import PokemonDetails from './PokemonDetails';
 export default function Pokedex() {
   const [filter, setFilter] = useState({});
   const { path } = useRouteMatch();
+  const history = useHistory();
 
   function handleChangeFilter(f) {
+    history.push('/');
     setFilter({ ...filter, ...f });
   }
 
