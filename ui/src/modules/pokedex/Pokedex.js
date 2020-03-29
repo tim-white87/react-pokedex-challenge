@@ -17,9 +17,9 @@ export default function Pokedex() {
 
   return (
     <section className="w-2/3 flex">
-      <div className="bg-red-600 rounded shadow px-4 py-20 w-1/2">
+      <div className="bg-red-600 rounded shadow px-4 pb-20 w-1/2">
         <PokedexHeader />
-        <div className="rounded bg-gray-200 overflow-y-auto h-64 ">
+        <div className="rounded shadow-2xl bg-gray-200 overflow-y-auto h-64 ">
           <Switch>
             <Route exact path={path}>
               <PokedexList filter={filter} />
