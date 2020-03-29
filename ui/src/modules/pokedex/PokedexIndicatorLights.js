@@ -19,7 +19,7 @@ function LargeIndicator() {
     <div
       className={`${css(
         styles.outerCircle
-      )} bg-gray-400 flex items-center justify-center`}
+      )} bg-gray-400 flex items-center justify-center shadow-2xl`}
     >
       <div className={`${css(styles.innerCircle)} bg-blue-500`}></div>
     </div>
@@ -29,7 +29,9 @@ function LargeIndicator() {
 function SmallIndicator(props) {
   return (
     <div
-      className={`${css(styles.smallCircle)} bg-${props.color} border`}
+      className={`${css(styles.smallCircle)} bg-${
+        props.color
+      } border shadow-2xl`}
     ></div>
   );
 }
