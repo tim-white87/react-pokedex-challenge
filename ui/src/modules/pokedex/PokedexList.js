@@ -19,6 +19,7 @@ export default function PokedexList({ filter, onSelectPokemon }) {
   const { loading, error, data } = useQuery(GET_POKEDEX, {
     variables: { filter }
   });
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -32,11 +33,11 @@ export default function PokedexList({ filter, onSelectPokemon }) {
       </div>
     );
   }
-  return data.pokedex.map(pokemon => (
-    <PokedexItem
-      key={`pokedex-item-${pokemon.id}`}
-      pokemon={pokemon}
-      onSelectPokemon={onSelectPokemon}
-    />
-  ));
+  return (
+    <div className="px-2">
+      {data.pokedex.map(pokemon => (
+        <PokedexItem key={`pokedex-item-${pokemon.id}`} pokemon={pokemon} />
+      ))}
+    </div>
+  );
 }

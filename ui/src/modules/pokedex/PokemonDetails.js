@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/react-hooks';
 import Button from '@material-ui/core/Button';
 import { gql } from 'apollo-boost';
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 
 const GET_POKEMON = gql`
   fragment Pokemon on Pokemon {
@@ -29,8 +29,10 @@ const GET_POKEMON = gql`
 `;
 
 export function PokemonImage(props) {
+  const history = useHistory();
+
   function onClickHandler() {
-    console.log(props.pokemon);
+    history.push(`/pokemon/${props.pokemon.id}`);
   }
 
   let linkProps = {};
@@ -44,7 +46,11 @@ export function PokemonImage(props) {
   return (
     <div className="flex border-b" {...linkProps}>
       <div className="w-1/4">
-        <img className="object-contain" src={props.pokemon.img}></img>
+        <img
+          alt={`${props.pokemon.name}`}
+          className="object-contain"
+          src={props.pokemon.img}
+        ></img>
       </div>
       <div className="w-3/4 p-4 font-bold">
         <h3>

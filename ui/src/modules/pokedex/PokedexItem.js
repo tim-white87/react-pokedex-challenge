@@ -1,10 +1,18 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function PokedexItem(props) {
+  const history = useHistory();
+
+  function onSelectPokemon() {
+    history.push(`/pokemon/${props.pokemon.id}`);
+  }
+
   return (
-    <div className="flex my-2 p-2 bg-white shadow-2 border rounded items-center w-full overflow-auto cursor-pointer hover:bg-yellow-200" onClick={e => {
-      return props.onSelectPokemon(e, props.pokemon.id)
-    }}>
+    <div
+      className="flex my-2 p-2 bg-white shadow-2 border rounded items-center w-full overflow-auto cursor-pointer hover:bg-yellow-200"
+      onClick={onSelectPokemon}
+    >
       <div className="mr-2">{props.pokemon.num}</div>
       <div className="mr-2">{props.pokemon.name}</div>
       <div className="mr-2 flex">
