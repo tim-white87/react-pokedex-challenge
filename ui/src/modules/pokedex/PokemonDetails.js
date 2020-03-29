@@ -5,27 +5,50 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 const GET_POKEMON = gql`
+  fragment Pokemon on Pokemon {
+    id
+    name
+    num
+    type
+    img
+    height
+    weight
+    weaknesses
+  }
   query getPokemon($id: ID) {
     pokemon(id: $id) @client {
-      id
-      name
-      num
-      type
-      img
-      type
-      height
-      weight
-      candy
-      # candy_count
-      egg
-      spawn_chance
-      avg_spawns
-      multipliers
-      weaknesses
-      # next_evolution
+      ...Pokemon
+      next_evolution {
+        ...Pokemon
+      }
     }
   }
 `;
+
+export function PokemonImage(props) {
+  return (
+    <div className="flex border-b mb-4">
+      <div className="w-1/4">
+        <img className="object-contain" src={props.pokemon.img}></img>
+      </div>
+      <div className="w-3/4 p-4 font-bold">
+        <h3>
+          #{props.pokemon.num}: {props.pokemon.name}
+        </h3>
+        <div>
+          Type:{' '}
+          {props.pokemon.type.map((t, i) => {
+            if (i + 1 === props.pokemon.type.length) {
+              return <span key={`pokemon-type-${i}`}>{t}</span>;
+            } else {
+              return <span key={`pokemon-type-${i}`}>{t}, </span>;
+            }
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function PokemonDetails() {
   const { pokemonId } = useParams();
@@ -34,7 +57,7 @@ export default function PokemonDetails() {
       id: pokemonId
     }
   });
-  // TODO consolidate
+  // TODO consolidate loading
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -49,6 +72,7 @@ export default function PokemonDetails() {
       </div>
     );
   }
+
   return (
     <section>
       <div className="bg-white shadow p-2 flex justify-between">
@@ -59,25 +83,8 @@ export default function PokemonDetails() {
         <h2 className="self-center text-sm mr-4">{data.pokemon.name}</h2>
       </div>
       <div className="p-8 rounded shadow bg-white m-8 flex flex-wrap">
-        <div className="w-1/4">
-          <img className="object-contain" src={data.pokemon.img}></img>
-        </div>
-        <div className="w-3/4 p-4 font-bold">
-          <h3>
-            #{data.pokemon.num}: {data.pokemon.name}
-          </h3>
-          <div>
-            Type:{' '}
-            {data.pokemon.type.map((t, i) => {
-              if (i + 1 === data.pokemon.type.length) {
-                return <span key={`pokemon-type-${i}`}>{t}</span>;
-              } else {
-                return <span key={`pokemon-type-${i}`}>{t}, </span>;
-              }
-            })}
-          </div>
-        </div>
         <div className="w-full flex flex-col">
+          <PokemonImage pokemon={data.pokemon} />
           <div>
             Weaknesses:{' '}
             {data.pokemon.weaknesses.map((w, i) => {
@@ -91,6 +98,23 @@ export default function PokemonDetails() {
           <div>Height: {data.pokemon.height}</div>
           <div>Weight: {data.pokemon.weight}</div>
         </div>
+        {data.pokemon.next_evolution && (
+          <div>
+            <div className="w-full mt-2">
+              <h3 className="font-bold text-center">Evolves Into</h3>
+            </div>
+            <div>
+              {data.pokemon.next_evolution.map((p, i) => (
+                <PokemonImage key={`pokemon-next-evolution-${i}`} pokemon={p} />
+              ))}
+            </div>
+          </div>
+        )}
+        {data.pokemon.prev_evolution && (
+          <div className="w-full mt-2">
+            <h3 className="font-bold text-center">Evolved From</h3>
+          </div>
+        )}
       </div>
     </section>
   );

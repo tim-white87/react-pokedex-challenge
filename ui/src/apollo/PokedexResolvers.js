@@ -40,6 +40,8 @@ function mapPokeTypes(pokemon) {
   return types;
 }
 
+const POKEMON_TYPENAME = 'Pokemon';
+
 // MOCKS: backend resolvers
 export default {
   Query: {
@@ -49,7 +51,7 @@ export default {
         pokemon = filterPokemon(pokemon, args.filter);
       }
       return pokemon.map(p => {
-        p.__typename = 'Pokemon';
+        p.__typename = POKEMON_TYPENAME;
         return p;
       });
     },
@@ -60,7 +62,25 @@ export default {
     pokemon: async (_, args, { cache }) => {
       let pokemon = await getPokeData(cache);
       const poke = pokemon.find(p => p.id.toString() === args.id);
-      poke.__typename = 'Pokemon';
+      if (poke.next_evolution) {
+        poke.next_evolution = poke.next_evolution.map(ne => {
+          const p = pokemon.find(p => p.num === ne.num);
+          p.__typename = POKEMON_TYPENAME;
+          return p;
+        });
+      } else {
+        poke.next_evolution = null;
+      }
+      if (poke.prev_evolution) {
+        poke.prev_evolution = poke.prev_evolution.map(ne => {
+          const p = pokemon.find(p => p.num === ne.num);
+          p.__typename = POKEMON_TYPENAME;
+          return p;
+        });
+      } else {
+        poke.prev_evolution = null;
+      }
+      poke.__typename = POKEMON_TYPENAME;
       return poke;
     }
   }
