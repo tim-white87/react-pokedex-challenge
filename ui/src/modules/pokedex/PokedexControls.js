@@ -47,6 +47,17 @@ export function PillScreen(props) {
   );
 }
 
+export function LargePillScreen(props) {
+  return (
+    <div
+      className={`w-full bg-${props.color ||
+        'gray-800'} h-12 border rounded shadow p-2 text-white`}
+    >
+      {props.children}
+    </div>
+  );
+}
+
 export function ControlPad(props) {
   return (
     <div className="flex flex-col h-24 w-24">

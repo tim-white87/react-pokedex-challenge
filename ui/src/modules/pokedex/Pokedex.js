@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom';
+import { LargePillScreen } from './PokedexControls';
 import PokedexFilters from './PokedexFilters';
 import PokedexIndicatorLights from './PokedexIndicatorLights';
 import PokedexLeftControls from './PokedexLeftControls';
@@ -33,7 +34,11 @@ export default function Pokedex() {
         </div>
         <PokedexLeftControls />
       </div>
-      <div className="bg-red-600 rounded shadow px-4 w-1/2 flex flex-col pt-24">
+      <div className="bg-red-600 rounded shadow px-4 w-1/2 flex flex-col">
+        <div className="py-10">
+          <LargePillScreen>{filter && filter.name}</LargePillScreen>
+        </div>
+
         <div className="w-full rounded bg-red-700 overflow-y-auto h-64 px-2">
           <PokedexFilters onChangeFilter={handleChangeFilter} />
         </div>
